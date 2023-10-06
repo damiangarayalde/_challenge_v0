@@ -23,13 +23,18 @@ Then what i did was:
 
 -------
 How to run this?   
+
 1- clone the repo
+
 2- follow the steps described in stuff_to_be_run file
-3- Test the Airflow DAG by hand (check that i commented the flight status filter as sometimes there are no flights under such condition)
+
+3- Copy the dags of the root to the dag folder, Test the Airflow DAG by hand (check that i commented the flight status filter as sometimes there are no flights under such condition)
+
 4- Use the notebook called 'fligoo_output_test.ipynb' to test the results
 
 
 Stuff i still didnt manage to get:
+- when i migrated to this version i cant get for airflow server to be accessible on the web browser 
 - how to create the table on startup of the docker image, i think it must have to do with the init-db.sql 
 - configure the DAG to run automatically in a periodic fashion
 - add checks and error handling 
