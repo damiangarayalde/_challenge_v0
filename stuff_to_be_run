@@ -1,4 +1,16 @@
+
+create a file:
+
+.env
+POSTGRES_DB=winequality
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=database
+POSTGRES_PORT=5432
+API_ACCESS_KEY='b9bae4850fdd4c65e655eac05ce4c4d1'
+
 source .env
+
 
 # Install yq (https://github.com/mikefarah/yq/#install) to parse the YAML file and retrieve the network name
 
@@ -13,8 +25,8 @@ docker logs $(docker ps -q --filter "ancestor=jupyter/minimal-notebook") 2>&1 | 
 
 # mkdir -p ./dags ./logs ./plugins
 # chmod -R 777 ./dags ./logs ./plugins
-# echo -e "AIRFLOW_UID=$(id -u)" >> .env
-# echo -e "AIRFLOW_GID=0" >> .env
+echo -e "AIRFLOW_UID=$(id -u)" >> .env
+echo -e "AIRFLOW_GID=0" >> .env
 
 # Init Airflow DB
 docker-compose -f airflow-docker-compose.yaml up airflow-init
