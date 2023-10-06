@@ -1,0 +1,32 @@
+source .env
+
+# Install yq (https://github.com/mikefarah/yq/#install) to parse the YAML file and retrieve the network name
+
+NETWORK_NAME=$(yq eval '.networks' postgres-docker-compose.yaml | cut -f 1 -d':')
+
+docker network create $NETWORK_NAME
+
+docker-compose --env-file ./.env -f ./postgres-docker-compose.yaml up -d
+
+# to get the url for the jupiter notebook:
+docker logs $(docker ps -q --filter "ancestor=jupyter/minimal-notebook") 2>&1 | grep 'http://127.0.0.1' | tail -1
+
+# mkdir -p ./dags ./logs ./plugins
+# chmod -R 777 ./dags ./logs ./plugins
+# echo -e "AIRFLOW_UID=$(id -u)" >> .env
+# echo -e "AIRFLOW_GID=0" >> .env
+
+# Init Airflow DB
+docker-compose -f airflow-docker-compose.yaml up airflow-init
+
+docker-compose -f airflow-docker-compose.yaml up -d
+
+#check 
+docker ps
+
+docker stats
+
+#-- To clean up
+docker-compose -f airflow-docker-compose.yaml down --volumes --rmi all
+docker-compose -f postgres-docker-compose.yaml down --volumes --rmi all
+docker network rm etl_network
