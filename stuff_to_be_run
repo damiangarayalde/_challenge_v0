@@ -2,17 +2,15 @@
 create a file:
 
 .env
-POSTGRES_DB=winequality
+POSTGRES_DB=fligoo
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_HOST=database
 POSTGRES_PORT=5432
-API_ACCESS_KEY='b9bae4850fdd4c65e655eac05ce4c4d1'
+
+# Excecute these commands:
 
 source .env
-
-
-# Install yq (https://github.com/mikefarah/yq/#install) to parse the YAML file and retrieve the network name
 
 NETWORK_NAME=$(yq eval '.networks' postgres-docker-compose.yaml | cut -f 1 -d':')
 
@@ -23,8 +21,9 @@ docker-compose --env-file ./.env -f ./postgres-docker-compose.yaml up -d
 # to get the url for the jupiter notebook:
 docker logs $(docker ps -q --filter "ancestor=jupyter/minimal-notebook") 2>&1 | grep 'http://127.0.0.1' | tail -1
 
-# mkdir -p ./dags ./logs ./plugins
-# chmod -R 777 ./dags ./logs ./plugins
+
+mkdir -p ./dags ./logs ./plugins
+chmod -R 777  ./logs ./plugins
 echo -e "AIRFLOW_UID=$(id -u)" >> .env
 echo -e "AIRFLOW_GID=0" >> .env
 
@@ -33,12 +32,16 @@ docker-compose -f airflow-docker-compose.yaml up airflow-init
 
 docker-compose -f airflow-docker-compose.yaml up -d
 
-#check 
+
+# Check the container status:
 docker ps
 
 docker stats
 
-#-- To clean up
+
+
+#  After you are done you can close up everything by doing a clean up:
+
 docker-compose -f airflow-docker-compose.yaml down --volumes --rmi all
 docker-compose -f postgres-docker-compose.yaml down --volumes --rmi all
 docker network rm etl_network

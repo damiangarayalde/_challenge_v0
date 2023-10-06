@@ -21,9 +21,18 @@ Then what i did was:
 
 5- Search for a better way to implement the Docker solution as a multicontainer 
 
+-------
+How to run this?   
+1- clone the repo
+2- follow the steps described in stuff_to_be_run file
+3- Test the Airflow DAG by hand (check that i commented the flight status filter as sometimes there are no flights under such condition)
+4- Use the notebook called 'fligoo_output_test.ipynb' to test the results
 
-To DO:
-- clean code, optimize it
-- use environments
-- make the schema and table to be created at container initialization
-- build a jupiter notebook to consume the db data.
+
+Stuff i still didnt manage to get:
+- how to create the table on startup of the docker image, i think it must have to do with the init-db.sql 
+- configure the DAG to run automatically in a periodic fashion
+- add checks and error handling 
+- clean stuff
+- make the first steps automatically executed when launching the container
+- add a proper gitignore
